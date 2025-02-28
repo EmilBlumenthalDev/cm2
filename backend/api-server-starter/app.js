@@ -12,7 +12,7 @@ const cors = require("cors");
 app.use(cors())
 app.use(express.json());
 app.use(morgan("dev"));
-app.use(express.static('view')); // Serve static assets
+app.use(express.static('dist')); // Serve static assets
 connectDB();
 
 // Use the userRouter for all /users routes
