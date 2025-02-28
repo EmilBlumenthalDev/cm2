@@ -17,74 +17,125 @@ import RegisterPage from './pages/RegisterPage';
 const App = () => {
   // Add New Job
   const addJob = async (newJob) => {
-    const res = await fetch('/api/jobs', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newJob),
-    });
-    return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('/api/jobs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(newJob),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to add job');
+      }
+
+      return await res.json();
+    } catch (error) {
+      console.error('Error adding job:', error);
+      throw error;
+    }
   };
 
   // Delete Job
   const deleteJob = async (id) => {
-    const res = await fetch(`/api/jobs/${id}`, {
-      method: 'DELETE',
-    });
-    return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/jobs/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to delete job');
+      }
+
+      return await res.json();
+    } catch (error) {
+      console.error('Error deleting job:', error);
+      throw error;
+    }
   };
 
   // Update Job
   const updateJob = async (job) => {
-    const res = await fetch(`/api/jobs/${job.id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(job),
-    });
-    return;
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`/api/jobs/${job.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(job),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to update job');
+      }
+
+      return await res.json();
+    } catch (error) {
+      console.error('Error updating job:', error);
+      throw error;
+    }
   };
 
   // Login Submit
   const loginSubmit = async (credentials) => {
-    const res = await fetch('/api/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(credentials),
-    });
+    try {
+      const res = await fetch('/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
 
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.error || 'Login failed');
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Login failed');
+      }
+
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      return data;
+    } catch (error) {
+      console.error('Error logging in:', error);
+      throw error;
     }
-
-    const data = await res.json();
-    localStorage.setItem('token', data.token);
-    return data;
   };
 
   // Register Submit
   const registerSubmit = async (userData) => {
-    const res = await fetch('/api/users/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(userData),
-    });
+    try {
+      const res = await fetch('/api/users/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
 
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.error || 'Registration failed');
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Registration failed');
+      }
+
+      const data = await res.json();
+      localStorage.setItem('token', data.token);
+      return data;
+    } catch (error) {
+      console.error('Error registering:', error);
+      throw error;
     }
-
-    const data = await res.json();
-    localStorage.setItem('token', data.token);
-    return data;
   };
 
   const router = createBrowserRouter(

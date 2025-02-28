@@ -21,7 +21,7 @@ app.use("/api/jobs", jobRouter);
 
 // Handle all other routes with the React app
 app.get('*', (req, res) => {
-  res.sendFile(__dirname + '/view/index.html');
+  res.sendFile(__dirname + '/dist/index.html');
 });
 
 app.use(unknownEndpoint);
