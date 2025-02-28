@@ -2,35 +2,41 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const LoginPage = ({ loginSubmit }) => {
+const RegisterPage = ({ registerSubmit }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const navigate = useNavigate();
 
     const submitForm = async (e) => {
         e.preventDefault();
 
-        const loginData = {
+        if (password !== confirmPassword) {
+            toast.error('Passwords do not match');
+            return;
+        }
+
+        const registerData = {
             email,
             password,
         };
 
         try {
-            await loginSubmit(loginData);
-            toast.success('Login Successful');
-            navigate('/');
+            await registerSubmit(registerData);
+            toast.success('Registration Successful');
+            navigate('/login');
         } catch (error) {
-            toast.error(error.message || 'Login failed');
+            toast.error(error.message || 'Registration failed');
         }
     };
 
     return (
         <section className='bg-indigo-50'>
             <div className='container m-auto max-w-md py-24'>
-                <div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
+                <div className='bg-white px-6 py-8 mb-4 shadow-md r</section>ounded-md border m-4 md:m-0'>
                     <form onSubmit={submitForm}>
-                        <h2 className='text-3xl text-center font-semibold mb-6'>Login</h2>
+                        <h2 className='text-3xl text-center font-semibold mb-6'>Register</h2>
 
                         <div className='mb-4'>
                             <label
@@ -70,12 +76,31 @@ const LoginPage = ({ loginSubmit }) => {
                             />
                         </div>
 
+                        <div className='mb-4'>
+                            <label
+                                htmlFor='confirmPassword'
+                                className='block text-gray-700 font-bold mb-2'
+                            >
+                                Confirm Password
+                            </label>
+                            <input
+                                type='password'
+                                id='confirmPassword'
+                                name='confirmPassword'
+                                className='border rounded w-full py-2 px-3 mb-2'
+                                placeholder='Confirm your password'
+                                required
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmPassword(e.target.value)}
+                            />
+                        </div>
+
                         <div>
                             <button
                                 className='bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full w-full focus:outline-none focus:shadow-outline'
                                 type='submit'
                             >
-                                Login
+                                Register
                             </button>
                         </div>
                     </form>
@@ -85,4 +110,4 @@ const LoginPage = ({ loginSubmit }) => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;
