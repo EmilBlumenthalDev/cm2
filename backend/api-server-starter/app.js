@@ -12,12 +12,17 @@ const cors = require("cors");
 app.use(cors())
 app.use(express.json());
 app.use(morgan("dev"));
-
+app.use(express.static('view')); // Serve static assets
 connectDB();
 
 // Use the userRouter for all /users routes
 app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
+
+// Handle all other routes with the React app
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/view/index.html');
+});
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
