@@ -10,7 +10,12 @@ const JobListings = ({ isHome = false }) => {
     const fetchJobs = async () => {
       const apiUrl = isHome ? '/api/jobs?_limit=3' : '/api/jobs';
       try {
-        const res = await fetch(apiUrl);
+        const token = localStorage.getItem('token');
+        const res = await fetch(apiUrl, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         const data = await res.json();
 
         if (data.length > 0) {
