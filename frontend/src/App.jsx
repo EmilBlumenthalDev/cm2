@@ -59,10 +59,12 @@ const App = () => {
 
     if (!res.ok) {
       const errorData = await res.json();
-      throw new Error(errorData.message || 'Login failed');
+      throw new Error(errorData.error || 'Login failed');
     }
 
-    return res.json();
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+    return data;
   };
 
   // Register Submit
@@ -77,10 +79,12 @@ const App = () => {
 
     if (!res.ok) {
       const errorData = await res.json();
-      throw new Error(errorData.message || 'Registration failed');
+      throw new Error(errorData.error || 'Registration failed');
     }
 
-    return res.json();
+    const data = await res.json();
+    localStorage.setItem('token', data.token);
+    return data;
   };
 
   const router = createBrowserRouter(
