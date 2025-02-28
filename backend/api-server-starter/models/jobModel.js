@@ -14,6 +14,25 @@ const jobSchema = new mongoose.Schema({
   }
 });
 
+// static create method
+jobSchema.statics.createJobPost = async function (title, type, location, description, salary, company) {
+  if (!title || !type || !location || !description || !salary || !company) {
+    throw Error('All fields must be filled');
+  }
+
+  if (!company.name || !company.description || !company.contactEmail || !company.contactPhone) {
+    throw Error('All company fields must be filled');
+  }
+
+  const job = await this.create({ title, type, location, description, salary, company });
+
+  return job;
+}
+
+// static edit method
+
+// static delete method
+
 // Ensure virtual fields are serialized
 jobSchema.set('toJSON', {
   virtuals: true,
