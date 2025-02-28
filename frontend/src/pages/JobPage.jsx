@@ -114,7 +114,7 @@ const JobPage = ({ deleteJob }) => {
 };
 
 const jobLoader = async ({ params }) => {
-  const token = localStorage.getItem('jwtToken'); // Assuming the token is stored in localStorage
+  const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
   const res = await fetch(`/api/jobs/${params.id}`, {
     headers: {
       'Authorization': `Bearer ${token}`

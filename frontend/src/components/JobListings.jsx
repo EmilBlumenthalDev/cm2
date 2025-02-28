@@ -9,7 +9,7 @@ const JobListings = ({ isHome = false }) => {
   useEffect(() => {
     const fetchJobs = async () => {
       const apiUrl = isHome ? '/api/jobs?_limit=3' : '/api/jobs';
-      const token = localStorage.getItem('jwtToken'); // Assuming the token is stored in localStorage
+      const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
 
       try {
         const res = await fetch(apiUrl, {
