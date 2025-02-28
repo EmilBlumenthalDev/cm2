@@ -27,6 +27,16 @@ const createJob = async (req, res) => {
   }
 }
 
+const deleteJobById = async (req, res) => {
+    const jobId = req.params.jobId
+    try {
+        const result = await Job.deleteJobById(jobId)
+        res.status(200).json(result)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
 const getAllJobs = async (req, res) => {
     /*
     /api/jobs?_limit=3
@@ -60,4 +70,4 @@ const getJob = async (req, res) => {
     }
 }
 
-module.exports = { createJob, getAllJobs, getJob }
+module.exports = { createJob, getAllJobs, deleteJobById, getJob }

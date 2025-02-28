@@ -16,6 +16,7 @@ const jobSchema = new mongoose.Schema({
 
 // static create method
 jobSchema.statics.createJobPost = async function (title, type, location, description, salary, company) {
+  
   if (!title || !type || !location || !description || !salary || !company) {
     throw Error('All fields must be filled');
   }
@@ -32,6 +33,21 @@ jobSchema.statics.createJobPost = async function (title, type, location, descrip
 // static edit method
 
 // static delete method
+jobSchema.statics.deleteJobById = async function(jobId) {
+  if (!jobId) {
+    throw Error('Job ID is required');
+  }
+  try {
+    const result = await this.deleteOne({ _id: jobId });
+    if (result.deletedCount === 0) {
+      throw Error('Job not found');
+    }
+    return result;
+  } catch (error) {
+    throw Error('Error deleting job');
+  }
+};
+
 
 // Ensure virtual fields are serialized
 jobSchema.set('toJSON', {
