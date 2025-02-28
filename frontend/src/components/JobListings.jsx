@@ -9,13 +9,8 @@ const JobListings = ({ isHome = false }) => {
   useEffect(() => {
     const fetchJobs = async () => {
       const apiUrl = isHome ? '/api/jobs?_limit=3' : '/api/jobs';
-      const token = localStorage.getItem('token');
       try {
-        const res = await fetch(apiUrl, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(apiUrl);
         const data = await res.json();
 
         if (data.length > 0) {
