@@ -30,7 +30,22 @@ jobSchema.statics.createJobPost = async function (title, type, location, descrip
 }
 
 // static edit method
+jobSchema.statics.editJobPost = async function (id, updates) {
+  if (!id || !updates) {
+    throw Error("Job ID and update data are required");
+  }
 
+  const job = await this.findByIdAndUpdate(id, updates, {
+    new: true,
+    runValidators: true,
+  });
+
+  if (!job) {
+    throw Error("Job not found");
+  }
+
+  return job;
+};
 // static delete method
 
 // Ensure virtual fields are serialized
