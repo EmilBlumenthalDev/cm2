@@ -27,4 +27,26 @@ const createJob = async (req, res) => {
   }
 }
 
-module.exports = { createJob }
+const getAllJobs = async (req, res) => {
+    /*
+    /api/jobs?_limit=3
+    */
+
+    const limit = req.query._limit ? parseInt(req.query._limit) : 10
+    console.log("limit", limit);
+
+    try {
+        let jobs = []
+        if (limit) {
+            jobs = await Job.find().limit(limit);
+        } else {
+            jobs = await Job.find();
+        }
+
+        res.status(200).json(jobs)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
+}
+
+module.exports = { createJob, getAllJobs }
