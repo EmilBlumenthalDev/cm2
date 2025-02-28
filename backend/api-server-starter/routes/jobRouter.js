@@ -1,7 +1,8 @@
 const express = require('express')
 
 // controller functions
-const { createJob, getAllJobs, getJob, deleteJobById } = require('../controllers/jobController');
+const { createJob, getAllJobs, getJob, editJob, deleteJobById  } = require('../controllers/jobController');
+
 const { requireAuth } = require('../middleware/requireAuth');
 
 const router = express.Router();
@@ -10,7 +11,8 @@ const router = express.Router();
 router.post('/', createJob);
 router.get('/', getAllJobs);
 router.get('/:id', getJob);
-
+router.put('/:id', editJob); // edit job route
 router.delete('/:jobId', deleteJobById);
 
 module.exports = router
+

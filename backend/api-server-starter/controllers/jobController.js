@@ -60,14 +60,28 @@ const getAllJobs = async (req, res) => {
 }
 
 const getJob = async (req, res) => {
-    const { id } = req.params
+  const { id } = req.params
 
-    try {
-        const job = await Job.findById(id);
-        res.status(200).json(job)
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    }
+  try {
+      const job = await Job.findById(id);
+      res.status(200).json(job)
+  } catch (error) {
+      res.status(400).json({error: error.message})
+  }
 }
 
-module.exports = { createJob, getAllJobs, deleteJobById, getJob }
+// edit job post
+const editJob = async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+
+  try {
+    const job = await Job.editJobPost(id, updates);
+    res.status(200).json(job);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createJob, getAllJobs, getJob, editJob,deleteJobById }
+

@@ -24,7 +24,7 @@ const JobListings = ({ isHome = false }) => {
     };
 
     fetchJobs();
-  }, []);
+  }, [isHome]);
 
   return (
     <section className='bg-blue-50 px-4 py-10'>
@@ -35,17 +35,20 @@ const JobListings = ({ isHome = false }) => {
 
         {loading ? (
           <Spinner loading={loading} />
-        ) : jobs.length === 0 ? (
-          <p className='text-center text-gray-500'>No jobs available at the moment.</p>
         ) : (
           <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-            {jobs.map((job) => (
-              <JobListing key={job.id} job={job} />
-            ))}
+            {jobs.length === 0 ? (
+              <p className='text-center text-gray-500'>No jobs available at the moment.</p>
+            ) : (
+              jobs.map((job) => (
+                <JobListing key={job.id} job={job} />
+              ))
+            )}
           </div>
         )}
       </div>
     </section>
   );
 };
+
 export default JobListings;
