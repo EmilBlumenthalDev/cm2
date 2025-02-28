@@ -25,7 +25,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "https://cm2-q627.onrender.com/",
+        target: "https://cm2-1.onrender.com//",
         changeOrigin: true,
       },
     },
