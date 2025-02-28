@@ -49,6 +49,18 @@ const getAllJobs = async (req, res) => {
     }
 }
 
+const getJob = async (req, res) => {
+  const { id } = req.params
+
+  try {
+      const job = await Job.findById(id);
+      res.status(200).json(job)
+  } catch (error) {
+      res.status(400).json({error: error.message})
+  }
+}
+
+
 // edit job post
 const editJob = async (req, res) => {
   const { id } = req.params;
@@ -62,5 +74,4 @@ const editJob = async (req, res) => {
   }
 };
 
-
-module.exports = { createJob, getAllJobs, editJob }
+module.exports = { createJob, getAllJobs, getJob, editJob }
